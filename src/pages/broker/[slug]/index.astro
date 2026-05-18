@@ -1,0 +1,28 @@
+---
+import IpoTable from "@/components/IpoTable.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import brokers from "../../../../data/brokers.json";
+import { loadIpos } from "@/lib/load-ipo";
+import { seo } from "@/lib/seo";
+import type { Broker, IpoRecord } from "@/lib/types";
+
+export async function getStaticPaths() {
+  const brokerList = brokers as Broker[];
+  const ipos = await loadIpos();
+  return brokerList.map((broker) => ({
+    params: { slug: broker.slug },
+    props: { broker, ipos: ipos.filter((ipo) => ipo.lead_manager_slug === broker.slug || (ipo.managers ?? []).includes(broker.name)) }
+  }));
+}
+
+const { broker, ipos } = Astro.props as { broker: Broker; ipos: IpoRecord[] };
+const meta = seo.listing(`${broker.name} 主幹事`, `${broker.name} IPO 実績`);
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonical={`/broker/${broker.slug}/`} breadcrumbs={[{ name: "ホーム", url: "/" }, { name: broker.name, url: `/broker/${broker.slug}/` }]}>
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <h1 class="text-3xl font-bold">{broker.name} IPO実績</h1>
+    <p class="mt-3 text-muted">主幹事または幹事団として登録されているサンプルIPOを一覧化しています。</p>
+    <div class="mt-6"><IpoTable ipos={ipos} /></div>
+  </section>
+</BaseLayout>

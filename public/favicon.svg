@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="IPO Archive">
+  <rect width="64" height="64" rx="12" fill="#116466"/>
+  <path d="M16 44h32v6H16zM18 36l9-11 8 7 10-16 5 3-14 22-8-7-6 8z" fill="#fff"/>
+  <circle cx="46" cy="18" r="4" fill="#d9a441"/>
+</svg>

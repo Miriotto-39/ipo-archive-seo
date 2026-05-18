@@ -1,0 +1,11 @@
+[
+  { "slug": "sbi", "name": "SBI証券", "affiliate_url": "#" },
+  { "slug": "rakuten", "name": "楽天証券", "affiliate_url": "#" },
+  { "slug": "matsui", "name": "松井証券", "affiliate_url": "#" },
+  { "slug": "smbc-nikko", "name": "SMBC日興証券", "affiliate_url": "#" },
+  { "slug": "daiwa", "name": "大和証券", "affiliate_url": "#" },
+  { "slug": "mizuho", "name": "みずほ証券", "affiliate_url": "#" },
+  { "slug": "monex", "name": "マネックス証券", "affiliate_url": "#" },
+  { "slug": "au-kabucom", "name": "auカブコム証券", "affiliate_url": "#" },
+  { "slug": "nomura", "name": "野村證券", "affiliate_url": "#" }
+]

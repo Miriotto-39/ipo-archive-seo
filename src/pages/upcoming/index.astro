@@ -1,0 +1,18 @@
+---
+import IpoTable from "@/components/IpoTable.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { loadIpos } from "@/lib/load-ipo";
+import { seo } from "@/lib/seo";
+
+const today = "2026-05-18";
+const ipos = (await loadIpos()).filter((ipo) => ipo.listing_date >= today);
+const meta = seo.listing("直近上場予定", "IPO 上場予定");
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonical="/upcoming/" breadcrumbs={[{ name: "ホーム", url: "/" }, { name: "上場予定", url: "/upcoming/" }]}>
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <h1 class="text-3xl font-bold">直近上場予定IPO</h1>
+    <p class="mt-3 text-muted">フェーズ1ではサンプルデータのうち、2026年5月18日以降の上場日を表示します。</p>
+    <div class="mt-6"><IpoTable ipos={ipos} /></div>
+  </section>
+</BaseLayout>

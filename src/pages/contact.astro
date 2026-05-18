@@ -1,0 +1,14 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { seo } from "@/lib/seo";
+
+const meta = seo.staticPage("お問い合わせ", "IPOアーカイブへのお問い合わせ方法を掲載しています。");
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonical="/contact/" breadcrumbs={[{ name: "ホーム", url: "/" }, { name: "お問い合わせ", url: "/contact/" }]}>
+  <section class="prose-page mx-auto max-w-3xl px-4 py-10">
+    <h1 class="text-3xl font-bold">お問い合わせ</h1>
+    <p class="mt-5 text-muted">掲載内容の確認依頼や修正依頼は、運営者の公開連絡先を設定後に受け付けます。</p>
+    <p class="mt-4 text-muted">フェーズ1では問い合わせフォームは未実装です。</p>
+  </section>
+</BaseLayout>

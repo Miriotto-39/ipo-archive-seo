@@ -1,0 +1,25 @@
+---
+import { withBase } from "@/lib/url";
+
+interface Props {
+  name?: string;
+  slug?: string;
+}
+
+const { name, slug } = Astro.props;
+---
+
+{
+  name ? (
+    <a
+      class="inline-flex items-center rounded-full border border-brand/20 bg-brand/10 px-3 py-1 text-xs font-semibold text-brand"
+      href={slug ? withBase(`/broker/${slug}/`) : "#"}
+    >
+      主幹事: {name}
+    </a>
+  ) : (
+    <span class="inline-flex items-center rounded-full border border-line px-3 py-1 text-xs text-muted">
+      主幹事未登録
+    </span>
+  )
+}

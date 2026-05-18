@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f7fafc"/>
+  <rect x="72" y="72" width="1056" height="486" rx="24" fill="#116466"/>
+  <text x="120" y="260" font-family="Arial, sans-serif" font-size="72" font-weight="700" fill="#ffffff">IPO Archive</text>
+  <text x="120" y="350" font-family="Arial, sans-serif" font-size="36" fill="#d9e2ec">Japanese IPO data, static SEO archive</text>
+  <path d="M120 448h300l72-92 80 62 132-184 56 38-170 238-84-66-46 62H120z" fill="#d9a441"/>
+</svg>

@@ -1,0 +1,52 @@
+---
+import type { BreadcrumbItem } from "@/lib/types";
+import { absoluteUrl } from "@/lib/seo";
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  breadcrumbs: BreadcrumbItem[];
+  image?: string;
+  extraJsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  canonical,
+  breadcrumbs,
+  image = "/og-default.png",
+  extraJsonLd
+} = Astro.props;
+
+const canonicalUrl = absoluteUrl(canonical);
+const imageUrl = absoluteUrl(image);
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: breadcrumbs.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: item.name,
+    item: absoluteUrl(item.url)
+  }))
+};
+const extraItems = Array.isArray(extraJsonLd)
+  ? extraJsonLd
+  : extraJsonLd
+    ? [extraJsonLd]
+    : [];
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={imageUrl} />
+<meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)}></script>
+{extraItems.map((jsonLd) => <script type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>)}

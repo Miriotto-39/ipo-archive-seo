@@ -1,0 +1,12 @@
+[
+  { "slug": "information-communication", "name": "情報・通信業" },
+  { "slug": "services", "name": "サービス業" },
+  { "slug": "retail", "name": "小売業" },
+  { "slug": "wholesale", "name": "卸売業" },
+  { "slug": "electric-appliances", "name": "電気機器" },
+  { "slug": "machinery", "name": "機械" },
+  { "slug": "pharmaceutical", "name": "医薬品" },
+  { "slug": "real-estate", "name": "不動産業" },
+  { "slug": "foods", "name": "食料品" },
+  { "slug": "chemicals", "name": "化学" }
+]

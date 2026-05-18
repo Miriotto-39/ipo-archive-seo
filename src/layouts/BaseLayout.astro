@@ -1,0 +1,68 @@
+---
+import SeoMeta from "@/components/SeoMeta.astro";
+import type { BreadcrumbItem } from "@/lib/types";
+import { withBase } from "@/lib/url";
+import "@/styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  breadcrumbs?: BreadcrumbItem[];
+  extraJsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  canonical,
+  breadcrumbs = [{ name: "ホーム", url: "/" }],
+  extraJsonLd
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <SeoMeta
+      title={title}
+      description={description}
+      canonical={canonical}
+      breadcrumbs={breadcrumbs}
+      extraJsonLd={extraJsonLd}
+    />
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen bg-paper text-ink">
+    <header class="border-b border-line bg-white">
+      <nav class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4">
+        <a class="text-lg font-bold text-brand" href={withBase("/")}>IPOアーカイブ</a>
+        <div class="flex flex-wrap gap-3 text-sm font-medium text-muted">
+          <a class="hover:text-brand" href={withBase("/upcoming/")}>上場予定</a>
+          <a class="hover:text-brand" href={withBase("/year/2026/")}>2026年</a>
+          <a class="hover:text-brand" href={withBase("/broker/sbi/")}>主幹事別</a>
+          <a class="hover:text-brand" href={withBase("/ranking/initial-return/2026/")}>ランキング</a>
+          <a class="hover:text-brand" href={withBase("/disclaimer/")}>免責事項</a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="mt-16 border-t border-line bg-white">
+      <div class="mx-auto max-w-6xl px-4 py-8 text-sm leading-7 text-muted">
+        <p>
+          IPOアーカイブは情報提供を目的とした静的サイトです。掲載内容は投資勧誘ではなく、
+          正確性や完全性を保証するものではありません。最終確認は各社の公式情報で行ってください。
+        </p>
+        <div class="mt-4 flex flex-wrap gap-4">
+          <a class="hover:text-brand" href={withBase("/about/")}>運営情報</a>
+          <a class="hover:text-brand" href={withBase("/contact/")}>お問い合わせ</a>
+          <a class="hover:text-brand" href={withBase("/disclaimer/")}>免責事項</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

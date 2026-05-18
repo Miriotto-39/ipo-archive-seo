@@ -1,0 +1,15 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { seo } from "@/lib/seo";
+import { withBase } from "@/lib/url";
+
+const meta = seo.staticPage("ページが見つかりません", "指定されたページは見つかりませんでした。");
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonical="/404/" breadcrumbs={[{ name: "ホーム", url: "/" }, { name: "404", url: "/404/" }]}>
+  <section class="mx-auto max-w-3xl px-4 py-20 text-center">
+    <h1 class="text-4xl font-bold">404</h1>
+    <p class="mt-4 text-muted">ページが見つかりませんでした。</p>
+    <a class="mt-8 inline-block rounded-md bg-brand px-4 py-2 text-sm font-semibold text-white" href={withBase("/")}>トップへ戻る</a>
+  </section>
+</BaseLayout>

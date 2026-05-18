@@ -1,0 +1,28 @@
+---
+import IpoTable from "@/components/IpoTable.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import sectors from "../../../../data/sectors.json";
+import { loadIpos } from "@/lib/load-ipo";
+import { seo } from "@/lib/seo";
+import type { IpoRecord, Sector } from "@/lib/types";
+
+export async function getStaticPaths() {
+  const sectorList = sectors as Sector[];
+  const ipos = await loadIpos();
+  return sectorList.map((sector) => ({
+    params: { slug: sector.slug },
+    props: { sector, ipos: ipos.filter((ipo) => ipo.sector_slug === sector.slug) }
+  }));
+}
+
+const { sector, ipos } = Astro.props as { sector: Sector; ipos: IpoRecord[] };
+const meta = seo.listing(sector.name, `${sector.name} IPO`);
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonical={`/sector/${sector.slug}/`} breadcrumbs={[{ name: "ホーム", url: "/" }, { name: sector.name, url: `/sector/${sector.slug}/` }]}>
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <h1 class="text-3xl font-bold">{sector.name} IPO一覧</h1>
+    <p class="mt-3 text-muted">業種別のIPO銘柄一覧です。</p>
+    <div class="mt-6"><IpoTable ipos={ipos} /></div>
+  </section>
+</BaseLayout>

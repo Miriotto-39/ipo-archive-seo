@@ -1,0 +1,39 @@
+# Node
+node_modules/
+dist/
+.astro/
+.cache/
+*.log
+npm-debug.log*
+.pnpm-debug.log*
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+
+# Build artifacts
+*.tsbuildinfo
+
+# Local data dumps (ignore raw scrapes; keep curated data/)
+data/raw/
+data/cache/
+.npm-cache/

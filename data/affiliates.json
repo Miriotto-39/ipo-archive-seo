@@ -1,0 +1,11 @@
+[
+  { "broker_slug": "sbi", "catch": "IPO取扱実績を重視する人向けの定番候補です。", "cta": "SBI証券のIPO口座を確認する" },
+  { "broker_slug": "rakuten", "catch": "普段の投資口座とまとめてIPO情報を確認しやすい証券会社です。", "cta": "楽天証券のIPO情報を見る" },
+  { "broker_slug": "matsui", "catch": "シンプルな取引画面でIPO抽選の確認を進めたい人向けです。", "cta": "松井証券を確認する" },
+  { "broker_slug": "smbc-nikko", "catch": "主幹事案件の確認先として候補に入れたい証券会社です。", "cta": "SMBC日興証券を確認する" },
+  { "broker_slug": "daiwa", "catch": "大型案件の主幹事実績を見たい人向けの候補です。", "cta": "大和証券のIPO情報を見る" },
+  { "broker_slug": "mizuho", "catch": "幅広いIPO案件の幹事実績を確認したい人に向いています。", "cta": "みずほ証券を確認する" },
+  { "broker_slug": "monex", "catch": "ネット証券でIPO抽選を検討したい人向けの候補です。", "cta": "マネックス証券を確認する" },
+  { "broker_slug": "au-kabucom", "catch": "複数口座でIPO応募先を広げたい人向けの候補です。", "cta": "auカブコム証券を確認する" },
+  { "broker_slug": "nomura", "catch": "大型IPOの主幹事実績を確認する際に外せない証券会社です。", "cta": "野村證券を確認する" }
+]

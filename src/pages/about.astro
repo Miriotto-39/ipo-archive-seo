@@ -1,0 +1,14 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { seo } from "@/lib/seo";
+
+const meta = seo.staticPage("運営情報", "IPOアーカイブの運営方針とデータ掲載方針を説明します。");
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonical="/about/" breadcrumbs={[{ name: "ホーム", url: "/" }, { name: "運営情報", url: "/about/" }]}>
+  <section class="prose-page mx-auto max-w-3xl px-4 py-10">
+    <h1 class="text-3xl font-bold">運営情報</h1>
+    <p class="mt-5 text-muted">IPOアーカイブは、日本のIPO銘柄を探しやすく整理することを目的にした静的アーカイブサイトです。</p>
+    <p class="mt-4 text-muted">フェーズ1では架空のサンプルデータのみを掲載し、本番データの自動取込はフェーズ2で実装予定です。</p>
+  </section>
+</BaseLayout>

@@ -1,0 +1,42 @@
+---
+import affiliates from "../../data/affiliates.json";
+import brokers from "../../data/brokers.json";
+import type { AffiliateCopy, Broker, IpoRecord } from "@/lib/types";
+
+interface Props {
+  ipo: IpoRecord;
+}
+
+const { ipo } = Astro.props;
+const brokerList = brokers as Broker[];
+const copyList = affiliates as AffiliateCopy[];
+const managerSlugs = [ipo.lead_manager_slug, ...(ipo.managers ?? []).map((name) => brokerList.find((broker) => broker.name === name)?.slug)]
+  .filter((slug): slug is string => Boolean(slug));
+const uniqueSlugs = [...new Set(managerSlugs)];
+const items = uniqueSlugs
+  .map((slug) => {
+    const broker = brokerList.find((candidate) => candidate.slug === slug);
+    const copy = copyList.find((candidate) => candidate.broker_slug === slug);
+    return broker && copy ? { broker, copy } : undefined;
+  })
+  .filter((item): item is { broker: Broker; copy: AffiliateCopy } => Boolean(item));
+---
+
+<section class="rounded-lg border border-accent/40 bg-white p-6">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-wide text-accent">PR placeholder</p>
+      <h2 class="mt-1 text-xl font-bold">この銘柄が買えた証券会社</h2>
+    </div>
+    <p class="text-sm text-muted">フェーズ1ではリンク先は仮置きです。</p>
+  </div>
+  <div class="mt-5 grid gap-3 md:grid-cols-2">
+    {items.map(({ broker, copy }) => (
+      <a class="rounded-lg border border-line p-4 hover:border-brand" href={broker.affiliate_url}>
+        <p class="font-semibold">{broker.name}</p>
+        <p class="mt-2 text-sm text-muted">{copy.catch}</p>
+        <p class="mt-3 text-sm font-semibold text-brand">{copy.cta}</p>
+      </a>
+    ))}
+  </div>
+</section>

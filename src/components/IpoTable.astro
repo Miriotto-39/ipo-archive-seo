@@ -1,0 +1,49 @@
+---
+import BrokerBadge from "@/components/BrokerBadge.astro";
+import { formatDate, formatPct, formatYen } from "@/lib/format";
+import type { IpoRecord } from "@/lib/types";
+import { withBase } from "@/lib/url";
+
+interface Props {
+  ipos: IpoRecord[];
+}
+
+const { ipos } = Astro.props;
+---
+
+<div class="overflow-x-auto rounded-lg border border-line bg-white">
+  <table class="min-w-full text-left text-sm">
+    <thead class="bg-paper text-xs uppercase tracking-wide text-muted">
+      <tr>
+        <th class="px-4 py-3">コード</th>
+        <th class="px-4 py-3">銘柄名</th>
+        <th class="px-4 py-3">市場</th>
+        <th class="px-4 py-3">上場日</th>
+        <th class="px-4 py-3">公募価格</th>
+        <th class="px-4 py-3">初値</th>
+        <th class="px-4 py-3">騰落率</th>
+        <th class="px-4 py-3">主幹事</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-line">
+      {ipos.map((ipo) => (
+        <tr class="hover:bg-paper/70">
+          <td class="whitespace-nowrap px-4 py-3 font-semibold">{ipo.code}</td>
+          <td class="min-w-56 px-4 py-3 font-semibold">
+            <a class="hover:text-brand" href={withBase(`/ipo/${ipo.code}/`)}>{ipo.name}</a>
+          </td>
+          <td class="whitespace-nowrap px-4 py-3">{ipo.market}</td>
+          <td class="whitespace-nowrap px-4 py-3">{formatDate(ipo.listing_date)}</td>
+          <td class="whitespace-nowrap px-4 py-3">{formatYen(ipo.issue_price)}</td>
+          <td class="whitespace-nowrap px-4 py-3">{formatYen(ipo.initial_price)}</td>
+          <td class={`whitespace-nowrap px-4 py-3 font-semibold ${(ipo.initial_return_pct ?? 0) >= 0 ? "text-gain" : "text-loss"}`}>
+            {formatPct(ipo.initial_return_pct)}
+          </td>
+          <td class="whitespace-nowrap px-4 py-3">
+            <BrokerBadge name={ipo.lead_manager} slug={ipo.lead_manager_slug} />
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,51 @@
+---
+import BrokerBadge from "@/components/BrokerBadge.astro";
+import { formatDate, formatPct, formatYen, monthOf, yearOf } from "@/lib/format";
+import { toSlug } from "@/lib/slug";
+import type { IpoRecord } from "@/lib/types";
+import { withBase } from "@/lib/url";
+
+interface Props {
+  ipo: IpoRecord;
+}
+
+const { ipo } = Astro.props;
+const returnClass = (ipo.initial_return_pct ?? 0) >= 0 ? "text-gain" : "text-loss";
+---
+
+<article class="rounded-lg border border-line bg-white p-5 shadow-soft">
+  <div class="flex flex-wrap items-start justify-between gap-3">
+    <div>
+      <p class="text-sm font-semibold text-muted">{ipo.code}</p>
+      <h2 class="mt-1 text-xl font-bold">
+        <a class="hover:text-brand" href={withBase(`/ipo/${ipo.code}/`)}>{ipo.name}</a>
+      </h2>
+      <p class="mt-2 text-sm text-muted">{ipo.market} / {ipo.sector ?? "業種未登録"}</p>
+    </div>
+    <BrokerBadge name={ipo.lead_manager} slug={ipo.lead_manager_slug} />
+  </div>
+  <dl class="mt-5 grid grid-cols-2 gap-3 text-sm md:grid-cols-4">
+    <div>
+      <dt class="text-muted">上場日</dt>
+      <dd class="font-semibold">{formatDate(ipo.listing_date)}</dd>
+    </div>
+    <div>
+      <dt class="text-muted">公募価格</dt>
+      <dd class="font-semibold">{formatYen(ipo.issue_price)}</dd>
+    </div>
+    <div>
+      <dt class="text-muted">初値</dt>
+      <dd class="font-semibold">{formatYen(ipo.initial_price)}</dd>
+    </div>
+    <div>
+      <dt class="text-muted">初値騰落率</dt>
+      <dd class={`font-semibold ${returnClass}`}>{formatPct(ipo.initial_return_pct)}</dd>
+    </div>
+  </dl>
+  <div class="mt-5 flex flex-wrap gap-3 text-xs text-muted">
+    <a class="hover:text-brand" href={withBase(`/year/${yearOf(ipo.listing_date)}/`)}>同年IPO</a>
+    <a class="hover:text-brand" href={withBase(`/year/${yearOf(ipo.listing_date)}/${monthOf(ipo.listing_date)}/`)}>同月IPO</a>
+    {ipo.sector_slug && <a class="hover:text-brand" href={withBase(`/sector/${ipo.sector_slug}/`)}>同業種IPO</a>}
+    <a class="hover:text-brand" href={withBase(`/market/${toSlug(ipo.market)}/`)}>同市場IPO</a>
+  </div>
+</article>

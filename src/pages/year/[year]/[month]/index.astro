@@ -1,0 +1,32 @@
+---
+import IpoTable from "@/components/IpoTable.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { loadIpos } from "@/lib/load-ipo";
+import { monthOf, yearOf } from "@/lib/format";
+import { seo } from "@/lib/seo";
+import type { IpoRecord } from "@/lib/types";
+import { withBase } from "@/lib/url";
+
+export async function getStaticPaths() {
+  const ipos = await loadIpos();
+  const keys = [...new Set(ipos.map((ipo) => `${yearOf(ipo.listing_date)}-${monthOf(ipo.listing_date)}`))];
+  return keys.map((key) => {
+    const [year, month] = key.split("-");
+    return {
+      params: { year, month },
+      props: { year, month, ipos: ipos.filter((ipo) => yearOf(ipo.listing_date) === year && monthOf(ipo.listing_date) === month) }
+    };
+  });
+}
+
+const { year, month, ipos } = Astro.props as { year: string; month: string; ipos: IpoRecord[] };
+const meta = seo.listing(`${year}年${month}月`, `${year}年${month}月 IPO`);
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonical={`/year/${year}/${month}/`} breadcrumbs={[{ name: "ホーム", url: "/" }, { name: `${year}年`, url: `/year/${year}/` }, { name: `${month}月`, url: `/year/${year}/${month}/` }]}>
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <h1 class="text-3xl font-bold">{year}年{month}月 IPO一覧</h1>
+    <p class="mt-3 text-muted"><a class="text-brand" href={withBase(`/year/${year}/`)}>{year}年IPO一覧</a>へ戻る</p>
+    <div class="mt-6"><IpoTable ipos={ipos} /></div>
+  </section>
+</BaseLayout>

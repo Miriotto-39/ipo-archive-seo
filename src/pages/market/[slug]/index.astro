@@ -1,0 +1,28 @@
+---
+import IpoTable from "@/components/IpoTable.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { loadIpos } from "@/lib/load-ipo";
+import { seo } from "@/lib/seo";
+import { toSlug } from "@/lib/slug";
+import type { IpoRecord } from "@/lib/types";
+
+export async function getStaticPaths() {
+  const ipos = await loadIpos();
+  const markets = [...new Map(ipos.map((ipo) => [toSlug(ipo.market), ipo.market])).entries()];
+  return markets.map(([slug, market]) => ({
+    params: { slug },
+    props: { market, slug, ipos: ipos.filter((ipo) => toSlug(ipo.market) === slug) }
+  }));
+}
+
+const { market, slug, ipos } = Astro.props as { market: string; slug: string; ipos: IpoRecord[] };
+const meta = seo.listing(`${market}市場`, `${market} IPO`);
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonical={`/market/${slug}/`} breadcrumbs={[{ name: "ホーム", url: "/" }, { name: market, url: `/market/${slug}/` }]}>
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <h1 class="text-3xl font-bold">{market} IPO一覧</h1>
+    <p class="mt-3 text-muted">市場別のIPO銘柄一覧です。</p>
+    <div class="mt-6"><IpoTable ipos={ipos} /></div>
+  </section>
+</BaseLayout>

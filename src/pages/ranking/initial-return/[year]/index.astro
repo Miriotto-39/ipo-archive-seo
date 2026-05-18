@@ -1,0 +1,33 @@
+---
+import IpoTable from "@/components/IpoTable.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { loadIpos } from "@/lib/load-ipo";
+import { yearOf } from "@/lib/format";
+import { seo } from "@/lib/seo";
+import type { IpoRecord } from "@/lib/types";
+
+export async function getStaticPaths() {
+  const ipos = await loadIpos();
+  const years = [...new Set(ipos.map((ipo) => yearOf(ipo.listing_date)))];
+  return years.map((year) => ({
+    params: { year },
+    props: {
+      year,
+      ipos: ipos
+        .filter((ipo) => yearOf(ipo.listing_date) === year)
+        .sort((a, b) => (b.initial_return_pct ?? -Infinity) - (a.initial_return_pct ?? -Infinity))
+    }
+  }));
+}
+
+const { year, ipos } = Astro.props as { year: string; ipos: IpoRecord[] };
+const meta = seo.ranking(year);
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonical={`/ranking/initial-return/${year}/`} breadcrumbs={[{ name: "ホーム", url: "/" }, { name: `${year}年ランキング`, url: `/ranking/initial-return/${year}/` }]}>
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <h1 class="text-3xl font-bold">{year}年 IPO初値騰落率ランキング</h1>
+    <p class="mt-3 text-muted">初値騰落率の高い順に並べています。</p>
+    <div class="mt-6"><IpoTable ipos={ipos} /></div>
+  </section>
+</BaseLayout>
