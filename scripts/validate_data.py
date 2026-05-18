@@ -25,14 +25,14 @@ Market = Literal[
 
 
 class IpoRecord(BaseModel):
-    code: str = Field(min_length=4, max_length=4)
+    code: str = Field(min_length=3, max_length=4)
     name: str
     name_kana: str | None = None
     listing_date: str
-    market: Market
+    market: Market | None = None
     sector: str | None = None
     sector_slug: str | None = None
-    business: str
+    business: str | None = None
     url_official: HttpUrl | None = None
     price_band_low: int | None = None
     price_band_high: int | None = None
@@ -53,9 +53,10 @@ class IpoRecord(BaseModel):
 
     @field_validator("code")
     @classmethod
-    def code_is_numeric(cls, value: str) -> str:
-        if not value.isdigit():
-            raise ValueError("code must be four digits")
+    def code_shape(cls, value: str) -> str:
+        # 4桁数字 (例: 1234) または 3桁数字+英字 (例: 130A) を許容
+        if not (value.isdigit() or (value[:-1].isdigit() and value[-1].isalpha())):
+            raise ValueError("code must be 4-digit numeric or 3-digit+letter")
         return value
 
     @field_validator("listing_date", "bb_start", "bb_end")

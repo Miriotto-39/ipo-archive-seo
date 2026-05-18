@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ipo-archive.pages.dev/sitemap-index.xml
+Sitemap: https://miriotto-39.github.io/ipo-archive-seo/sitemap-index.xml

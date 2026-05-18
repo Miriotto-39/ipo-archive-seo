@@ -8,10 +8,11 @@ import type { IpoRecord } from "@/lib/types";
 
 export async function getStaticPaths() {
   const ipos = await loadIpos();
-  const markets = [...new Map(ipos.map((ipo) => [toSlug(ipo.market), ipo.market])).entries()];
+  const withMarket = ipos.filter((ipo) => ipo.market != null);
+  const markets = [...new Map(withMarket.map((ipo) => [toSlug(ipo.market!), ipo.market!])).entries()];
   return markets.map(([slug, market]) => ({
     params: { slug },
-    props: { market, slug, ipos: ipos.filter((ipo) => toSlug(ipo.market) === slug) }
+    props: { market, slug, ipos: withMarket.filter((ipo) => toSlug(ipo.market!) === slug) }
   }));
 }
 

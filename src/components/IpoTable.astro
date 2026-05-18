@@ -32,11 +32,11 @@ const { ipos } = Astro.props;
           <td class="min-w-56 px-4 py-3 font-semibold">
             <a class="hover:text-brand" href={withBase(`/ipo/${ipo.code}/`)}>{ipo.name}</a>
           </td>
-          <td class="whitespace-nowrap px-4 py-3">{ipo.market}</td>
+          <td class="whitespace-nowrap px-4 py-3">{ipo.market ?? "-"}</td>
           <td class="whitespace-nowrap px-4 py-3">{formatDate(ipo.listing_date)}</td>
           <td class="whitespace-nowrap px-4 py-3">{formatYen(ipo.issue_price)}</td>
           <td class="whitespace-nowrap px-4 py-3">{formatYen(ipo.initial_price)}</td>
-          <td class={`whitespace-nowrap px-4 py-3 font-semibold ${(ipo.initial_return_pct ?? 0) >= 0 ? "text-gain" : "text-loss"}`}>
+          <td class={`whitespace-nowrap px-4 py-3 font-semibold ${ipo.initial_return_pct == null ? "text-muted" : (ipo.initial_return_pct >= 0 ? "text-gain" : "text-loss")}`}>
             {formatPct(ipo.initial_return_pct)}
           </td>
           <td class="whitespace-nowrap px-4 py-3">

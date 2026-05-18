@@ -2,14 +2,46 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { seo } from "@/lib/seo";
 
-const meta = seo.staticPage("免責事項", "IPOアーカイブの掲載情報、投資判断、アフィリエイトリンクに関する免責事項です。");
+const meta = seo.staticPage(
+  "免責事項",
+  "IPOアーカイブの掲載情報、投資判断、アフィリエイトリンク、データ正確性に関する免責事項です。"
+);
 ---
 
 <BaseLayout title={meta.title} description={meta.description} canonical="/disclaimer/" breadcrumbs={[{ name: "ホーム", url: "/" }, { name: "免責事項", url: "/disclaimer/" }]}>
-  <section class="prose-page mx-auto max-w-3xl px-4 py-10">
+  <section class="prose-page mx-auto max-w-3xl px-4 py-10 leading-8">
     <h1 class="text-3xl font-bold">免責事項</h1>
-    <p class="mt-5 text-muted">掲載情報は投資勧誘ではありません。投資判断は利用者自身の責任で行ってください。</p>
-    <p class="mt-4 text-muted">データの正確性や完全性は保証しません。最終確認は各社の公式URL、取引所、証券会社の公開情報で行ってください。</p>
-    <p class="mt-4 text-muted">一部リンクは将来的にアフィリエイトリンクへ差し替える可能性があります。</p>
+
+    <h2 class="mt-8 text-xl font-bold">投資勧誘ではありません</h2>
+    <p class="mt-3 text-muted">
+      本サイトに掲載しているIPO（新規公開株式）に関する情報は、特定の銘柄の購入・保有・売却を勧誘するものではありません。
+      投資判断は利用者ご自身の責任において行ってください。投資結果について当サイトは一切の責任を負いません。
+    </p>
+
+    <h2 class="mt-8 text-xl font-bold">データの正確性</h2>
+    <p class="mt-3 text-muted">
+      掲載データは IRBANK、株探、各社IR等の公開情報をもとに作成していますが、正確性・完全性・適時性を保証するものではありません。
+      最新かつ確定的な情報は、必ず各社の公式IR、東京証券取引所の適時開示、引受証券会社の目論見書などでご確認ください。
+    </p>
+    <p class="mt-3 text-muted">
+      データに誤りを発見された場合は、お問い合わせページからご連絡いただけると順次修正いたします。
+    </p>
+
+    <h2 class="mt-8 text-xl font-bold">アフィリエイトリンク</h2>
+    <p class="mt-3 text-muted">
+      本サイト上の証券会社へのリンクの一部は、将来的にアフィリエイトプログラム（A8.net、もしもアフィリエイト等）を通じた成果報酬型広告に差し替える予定です。
+      これらのリンク経由で口座開設や取引が行われた場合、運営者に紹介料が支払われることがありますが、利用者の追加負担はありません。
+      アフィリエイトの有無は記事の評価・選定に影響しません。
+    </p>
+
+    <h2 class="mt-8 text-xl font-bold">外部リンクについて</h2>
+    <p class="mt-3 text-muted">
+      本サイトから他のウェブサイトへのリンクは、利便性のために提供しているもので、リンク先サイトの内容について当サイトは責任を負いません。
+    </p>
+
+    <h2 class="mt-8 text-xl font-bold">著作権</h2>
+    <p class="mt-3 text-muted">
+      本サイトのコンテンツは、各社の公式IR資料・適時開示資料などの公開情報を整理したものです。データ参照元の権利は各サイト・各社に帰属します。
+    </p>
   </section>
 </BaseLayout>

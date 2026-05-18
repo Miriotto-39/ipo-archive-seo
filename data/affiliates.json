@@ -1,11 +1,11 @@
 [
-  { "broker_slug": "sbi", "catch": "IPO取扱実績を重視する人向けの定番候補です。", "cta": "SBI証券のIPO口座を確認する" },
-  { "broker_slug": "rakuten", "catch": "普段の投資口座とまとめてIPO情報を確認しやすい証券会社です。", "cta": "楽天証券のIPO情報を見る" },
-  { "broker_slug": "matsui", "catch": "シンプルな取引画面でIPO抽選の確認を進めたい人向けです。", "cta": "松井証券を確認する" },
-  { "broker_slug": "smbc-nikko", "catch": "主幹事案件の確認先として候補に入れたい証券会社です。", "cta": "SMBC日興証券を確認する" },
-  { "broker_slug": "daiwa", "catch": "大型案件の主幹事実績を見たい人向けの候補です。", "cta": "大和証券のIPO情報を見る" },
-  { "broker_slug": "mizuho", "catch": "幅広いIPO案件の幹事実績を確認したい人に向いています。", "cta": "みずほ証券を確認する" },
-  { "broker_slug": "monex", "catch": "ネット証券でIPO抽選を検討したい人向けの候補です。", "cta": "マネックス証券を確認する" },
-  { "broker_slug": "au-kabucom", "catch": "複数口座でIPO応募先を広げたい人向けの候補です。", "cta": "auカブコム証券を確認する" },
-  { "broker_slug": "nomura", "catch": "大型IPOの主幹事実績を確認する際に外せない証券会社です。", "cta": "野村證券を確認する" }
+  { "broker_slug": "sbi", "catch": "IPO取扱実績が国内最多クラス。チャレンジポイント制度で外れても次回当選に近づける仕組みが特徴。", "cta": "SBI証券の口座開設を確認する" },
+  { "broker_slug": "rakuten", "catch": "楽天ポイントとの連携で日々の投資情報を一元管理。完全平等抽選方式でIPOに参加可能。", "cta": "楽天証券のIPO情報を見る" },
+  { "broker_slug": "matsui", "catch": "前受金不要でIPO抽選に参加できる方式を採用。資金効率を重視する人向け。", "cta": "松井証券の口座開設を確認する" },
+  { "broker_slug": "smbc-nikko", "catch": "メガバンク系の主幹事実績が豊富。完全抽選枠とステージ別優遇枠の併用が可能。", "cta": "SMBC日興証券の口座開設を確認する" },
+  { "broker_slug": "daiwa", "catch": "大型IPO案件の主幹事を務めることが多い老舗証券。安定したIPO抽選機会が得られる。", "cta": "大和証券のIPO情報を見る" },
+  { "broker_slug": "mizuho", "catch": "メガバンク系列で幹事団入りする案件が多く、複数証券併用戦略の主力候補に。", "cta": "みずほ証券の口座開設を確認する" },
+  { "broker_slug": "monex", "catch": "完全平等抽選方式でIPO参加可能。資金量に関わらず公平に当選確率が割り振られる。", "cta": "マネックス証券の口座開設を確認する" },
+  { "broker_slug": "au-kabucom", "catch": "三菱UFJ系列で幹事実績多数。Pontaポイント連携で投資管理を一元化できる。", "cta": "auカブコム証券の口座開設を確認する" },
+  { "broker_slug": "nomura", "catch": "国内最大手の証券会社。大型IPOの主幹事実績は群を抜く。確実に幹事団に加わる案件が多い。", "cta": "野村證券の口座開設を確認する" }
 ]

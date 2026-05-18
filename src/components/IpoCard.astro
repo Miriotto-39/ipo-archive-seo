@@ -20,7 +20,7 @@ const returnClass = (ipo.initial_return_pct ?? 0) >= 0 ? "text-gain" : "text-los
       <h2 class="mt-1 text-xl font-bold">
         <a class="hover:text-brand" href={withBase(`/ipo/${ipo.code}/`)}>{ipo.name}</a>
       </h2>
-      <p class="mt-2 text-sm text-muted">{ipo.market} / {ipo.sector ?? "業種未登録"}</p>
+      <p class="mt-2 text-sm text-muted">{ipo.market ?? "市場未登録"} / {ipo.sector ?? "業種未登録"}</p>
     </div>
     <BrokerBadge name={ipo.lead_manager} slug={ipo.lead_manager_slug} />
   </div>
@@ -46,6 +46,6 @@ const returnClass = (ipo.initial_return_pct ?? 0) >= 0 ? "text-gain" : "text-los
     <a class="hover:text-brand" href={withBase(`/year/${yearOf(ipo.listing_date)}/`)}>同年IPO</a>
     <a class="hover:text-brand" href={withBase(`/year/${yearOf(ipo.listing_date)}/${monthOf(ipo.listing_date)}/`)}>同月IPO</a>
     {ipo.sector_slug && <a class="hover:text-brand" href={withBase(`/sector/${ipo.sector_slug}/`)}>同業種IPO</a>}
-    <a class="hover:text-brand" href={withBase(`/market/${toSlug(ipo.market)}/`)}>同市場IPO</a>
+    {ipo.market && <a class="hover:text-brand" href={withBase(`/market/${toSlug(ipo.market)}/`)}>同市場IPO</a>}
   </div>
 </article>

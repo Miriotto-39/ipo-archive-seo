@@ -14,10 +14,10 @@ export interface IpoRecord {
   name: string;
   name_kana?: string;
   listing_date: string;
-  market: Market;
+  market: Market | null;
   sector?: string;
   sector_slug?: string;
-  business: string;
+  business?: string;
   url_official?: string;
   price_band_low?: number;
   price_band_high?: number;

@@ -2,13 +2,43 @@ name: Daily ingest
 
 on:
   schedule:
+    # 毎日 JST 19:00 (UTC 10:00) に実行。IRBANK の更新は当日中の場合が多く、夜間に拾う方針
     - cron: "0 10 * * *"
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   ingest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Phase 1 placeholder
-        run: echo "TODO"
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python deps
+        run: pip install -r scripts/requirements.txt
+
+      - name: Run IRBANK ingest
+        run: python scripts/ingest_irbank.py
+
+      - name: Validate data
+        run: python scripts/validate_data.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet data/ipo.jsonl; then
+            echo "No changes in data/ipo.jsonl"
+          else
+            git add data/ipo.jsonl
+            git commit -m "chore: daily ingest $(date -u +'%Y-%m-%d')"
+            git push
+            echo "Pushed updated ipo.jsonl"
+          fi

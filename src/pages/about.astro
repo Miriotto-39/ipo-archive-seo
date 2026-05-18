@@ -1,14 +1,50 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { seo } from "@/lib/seo";
+import { withBase } from "@/lib/url";
 
-const meta = seo.staticPage("運営情報", "IPOアーカイブの運営方針とデータ掲載方針を説明します。");
+const meta = seo.staticPage(
+  "運営情報",
+  "IPOアーカイブの運営方針・データソース・更新頻度を説明します。"
+);
 ---
 
 <BaseLayout title={meta.title} description={meta.description} canonical="/about/" breadcrumbs={[{ name: "ホーム", url: "/" }, { name: "運営情報", url: "/about/" }]}>
-  <section class="prose-page mx-auto max-w-3xl px-4 py-10">
+  <section class="prose-page mx-auto max-w-3xl px-4 py-10 leading-8">
     <h1 class="text-3xl font-bold">運営情報</h1>
-    <p class="mt-5 text-muted">IPOアーカイブは、日本のIPO銘柄を探しやすく整理することを目的にした静的アーカイブサイトです。</p>
-    <p class="mt-4 text-muted">フェーズ1では架空のサンプルデータのみを掲載し、本番データの自動取込はフェーズ2で実装予定です。</p>
+
+    <h2 class="mt-8 text-xl font-bold">サイトの目的</h2>
+    <p class="mt-3 text-muted">
+      「IPOアーカイブ」は、日本国内の新規株式公開（IPO）銘柄を年・月・主幹事・市場区分・業種別に網羅的に整理し、
+      検索しやすい静的アーカイブを提供することを目的としています。投資勧誘ではなく、情報整理と公式IRへの導線を目的としています。
+    </p>
+
+    <h2 class="mt-8 text-xl font-bold">データソース</h2>
+    <ul class="mt-3 list-disc space-y-2 pl-6 text-muted">
+      <li>IRBANK <a class="text-brand underline" href="https://irbank.net/ipo" target="_blank" rel="noopener noreferrer">irbank.net/ipo</a> - 上場日、銘柄コード、社名の一次情報</li>
+      <li>株探（カブタン） <a class="text-brand underline" href="https://kabutan.jp/" target="_blank" rel="noopener noreferrer">kabutan.jp</a> - 価格情報、業績、市場区分の補完</li>
+      <li>各社IR・適時開示 - 公募価格、初値、主幹事の確定情報</li>
+    </ul>
+    <p class="mt-3 text-muted">
+      各IPO個別ページの末尾に参照ソースURLを明記しています。確定情報は必ず公式IRや取引所の発表でご確認ください。
+    </p>
+
+    <h2 class="mt-8 text-xl font-bold">更新頻度</h2>
+    <p class="mt-3 text-muted">
+      GitHub Actions の cron で毎日 JST 19:00 に IRBANK から直近IPOの自動取込を行い、データに変更があれば自動で再ビルド・再デプロイされます。
+      公募価格・初値・主幹事などの補完情報は段階的に取得・反映していきます。
+    </p>
+
+    <h2 class="mt-8 text-xl font-bold">技術スタック</h2>
+    <p class="mt-3 text-muted">
+      Astro 5（静的サイトジェネレータ）+ Tailwind CSS v4 + TypeScript。ホスティングは GitHub Pages。
+      ソースコードは <a class="text-brand underline" href="https://github.com/Miriotto-39/ipo-archive-seo" target="_blank" rel="noopener noreferrer">GitHub: Miriotto-39/ipo-archive-seo</a> で公開しています。
+    </p>
+
+    <h2 class="mt-8 text-xl font-bold">関連リンク</h2>
+    <ul class="mt-3 list-disc space-y-2 pl-6">
+      <li><a class="text-brand underline" href={withBase("/disclaimer/")}>免責事項</a></li>
+      <li><a class="text-brand underline" href={withBase("/contact/")}>お問い合わせ</a></li>
+    </ul>
   </section>
 </BaseLayout>

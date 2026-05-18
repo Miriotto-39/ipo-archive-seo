@@ -2,13 +2,34 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { seo } from "@/lib/seo";
 
-const meta = seo.staticPage("お問い合わせ", "IPOアーカイブへのお問い合わせ方法を掲載しています。");
+const meta = seo.staticPage(
+  "お問い合わせ",
+  "IPOアーカイブへのデータ修正依頼、提携・取材のお問い合わせ方法を掲載しています。"
+);
 ---
 
 <BaseLayout title={meta.title} description={meta.description} canonical="/contact/" breadcrumbs={[{ name: "ホーム", url: "/" }, { name: "お問い合わせ", url: "/contact/" }]}>
-  <section class="prose-page mx-auto max-w-3xl px-4 py-10">
+  <section class="prose-page mx-auto max-w-3xl px-4 py-10 leading-8">
     <h1 class="text-3xl font-bold">お問い合わせ</h1>
-    <p class="mt-5 text-muted">掲載内容の確認依頼や修正依頼は、運営者の公開連絡先を設定後に受け付けます。</p>
-    <p class="mt-4 text-muted">フェーズ1では問い合わせフォームは未実装です。</p>
+
+    <h2 class="mt-8 text-xl font-bold">データ修正・追加のご依頼</h2>
+    <p class="mt-3 text-muted">
+      掲載データの誤りや、IPO情報の追加要望は GitHub の Issues からご連絡ください。
+    </p>
+    <p class="mt-3">
+      <a class="text-brand underline" href="https://github.com/Miriotto-39/ipo-archive-seo/issues" target="_blank" rel="noopener noreferrer">
+        GitHub Issues: Miriotto-39/ipo-archive-seo
+      </a>
+    </p>
+
+    <h2 class="mt-8 text-xl font-bold">提携・取材・広告のご相談</h2>
+    <p class="mt-3 text-muted">
+      アフィリエイト提携や取材、広告掲載のご相談も上記 GitHub Issues、もしくは GitHub プロフィール経由でご連絡ください。
+    </p>
+
+    <h2 class="mt-8 text-xl font-bold">その他</h2>
+    <p class="mt-3 text-muted">
+      本サイトは個人運営のため、ご返信までお時間をいただく場合があります。あらかじめご了承ください。
+    </p>
   </section>
 </BaseLayout>

@@ -1,19 +1,19 @@
-export function formatYen(value?: number): string {
-  if (value === undefined || Number.isNaN(value)) {
+export function formatYen(value?: number | null): string {
+  if (value == null || Number.isNaN(value)) {
     return "-";
   }
   return `${new Intl.NumberFormat("ja-JP").format(value)}円`;
 }
 
-export function formatOku(value?: number): string {
-  if (value === undefined || Number.isNaN(value)) {
+export function formatOku(value?: number | null): string {
+  if (value == null || Number.isNaN(value)) {
     return "-";
   }
   return `${new Intl.NumberFormat("ja-JP", { maximumFractionDigits: 1 }).format(value)}億円`;
 }
 
-export function formatPct(value?: number): string {
-  if (value === undefined || Number.isNaN(value)) {
+export function formatPct(value?: number | null): string {
+  if (value == null || Number.isNaN(value)) {
     return "-";
   }
   const sign = value > 0 ? "+" : "";
@@ -22,7 +22,7 @@ export function formatPct(value?: number): string {
   }).format(value)}%`;
 }
 
-export function formatDate(value?: string): string {
+export function formatDate(value?: string | null): string {
   if (!value) {
     return "-";
   }

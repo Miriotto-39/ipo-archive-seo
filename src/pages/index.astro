@@ -2,60 +2,80 @@
 import IpoCard from "@/components/IpoCard.astro";
 import IpoTable from "@/components/IpoTable.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import AffiliateBlock from "@/components/AffiliateBlock.astro";
 import { loadIpos } from "@/lib/load-ipo";
 import { seo } from "@/lib/seo";
-import { yearOf } from "@/lib/format";
+import { yearOf, monthOf } from "@/lib/format";
 import { withBase } from "@/lib/url";
 
 const ipos = await loadIpos();
-const latest = ipos.slice(0, 3);
-const years = [...new Set(ipos.map((ipo) => yearOf(ipo.listing_date)))];
+const latest = ipos.slice(0, 6);
+const years = [...new Set(ipos.map((ipo) => yearOf(ipo.listing_date)))].sort().reverse();
 const meta = seo.home();
+
+const itemListJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: latest.map((ipo, idx) => ({
+    "@type": "ListItem",
+    position: idx + 1,
+    name: `${ipo.code} ${ipo.name}`,
+    url: `https://miriotto-39.github.io/ipo-archive-seo/ipo/${ipo.code}/`
+  }))
+};
 ---
 
-<BaseLayout title={meta.title} description={meta.description} canonical="/" breadcrumbs={[{ name: "ホーム", url: "/" }]}>
+<BaseLayout
+  title={meta.title}
+  description={meta.description}
+  canonical="/"
+  breadcrumbs={[{ name: "ホーム", url: "/" }]}
+  extraJsonLd={itemListJsonLd}
+>
   <section class="bg-white">
     <div class="mx-auto max-w-6xl px-4 py-12">
-      <p class="text-sm font-semibold text-brand">Programmatic IPO Archive</p>
-      <h1 class="mt-3 max-w-3xl text-4xl font-bold leading-tight md:text-5xl">IPO一覧・初値・公募価格を静的ページで探す</h1>
+      <p class="text-sm font-semibold text-brand">日本のIPO銘柄アーカイブ</p>
+      <h1 class="mt-3 max-w-3xl text-4xl font-bold leading-tight md:text-5xl">日本のIPO一覧・上場日・銘柄コードを年・月別に探す</h1>
       <p class="mt-5 max-w-3xl text-base leading-8 text-muted">
-        日本のIPO銘柄を年別、月別、主幹事、業種、市場別に整理するアーカイブです。フェーズ1は架空サンプルデータで動作確認しています。
+        日本国内の直近上場IPO銘柄 {ipos.length} 件を年別・月別・主幹事別・市場別にアーカイブ化しています。検索・比較・公式IRへの導線を1ページで提供します。
       </p>
       <div class="mt-8 flex flex-wrap gap-3">
-        <a class="rounded-md bg-brand px-4 py-2 text-sm font-semibold text-white" href={withBase("/upcoming/")}>上場予定を見る</a>
-        <a class="rounded-md border border-line px-4 py-2 text-sm font-semibold" href={withBase("/ranking/initial-return/2026/")}>初値ランキング</a>
+        <a class="rounded-md bg-brand px-4 py-2 text-sm font-semibold text-white" href={withBase("/year/2026/")}>2026年のIPO一覧</a>
+        <a class="rounded-md border border-line px-4 py-2 text-sm font-semibold" href={withBase("/year/2025/")}>2025年のIPO一覧</a>
+        <a class="rounded-md border border-line px-4 py-2 text-sm font-semibold" href={withBase("/upcoming/")}>直近上場予定</a>
       </div>
     </div>
   </section>
+
   <section class="mx-auto max-w-6xl px-4 py-10">
     <div class="mb-5 flex items-end justify-between gap-4">
       <div>
         <h2 class="text-2xl font-bold">新着IPO</h2>
-        <p class="mt-2 text-sm text-muted">サンプルデータの直近上場銘柄です。</p>
+        <p class="mt-2 text-sm text-muted">直近の上場銘柄（IRBANK・株探より取得）</p>
       </div>
+      <a class="text-sm text-brand hover:underline" href={withBase(`/year/${years[0] ?? "2026"}/`)}>{years[0] ?? "2026"}年の一覧へ →</a>
     </div>
     <div class="grid gap-4 md:grid-cols-3">
       {latest.map((ipo) => <IpoCard ipo={ipo} />)}
     </div>
   </section>
+
   <section class="mx-auto max-w-6xl px-4 py-8">
-    <h2 class="mb-4 text-2xl font-bold">IPO一覧</h2>
+    <h2 class="mb-4 text-2xl font-bold">IPO銘柄一覧</h2>
+    <p class="mb-4 text-sm text-muted">公募価格・初値・主幹事情報は順次自動取込中。各銘柄ページから公式IRや株探へリンクしています。</p>
     <IpoTable ipos={ipos} />
   </section>
-  <section class="mx-auto grid max-w-6xl gap-4 px-4 py-8 md:grid-cols-3">
-    <div class="rounded-lg border border-line bg-white p-5">
-      <h2 class="font-bold">年別</h2>
-      <div class="mt-3 flex flex-wrap gap-2 text-sm text-brand">
-        {years.map((year) => <a href={withBase(`/year/${year}/`)}>{year}年</a>)}
-      </div>
+
+  <section class="mx-auto max-w-6xl px-4 py-8">
+    <h2 class="mb-4 text-2xl font-bold">年別アーカイブ</h2>
+    <div class="flex flex-wrap gap-3 text-sm">
+      {years.map((year) => (
+        <a class="rounded-md border border-line bg-white px-4 py-2 text-brand hover:border-brand" href={withBase(`/year/${year}/`)}>{year}年IPO一覧</a>
+      ))}
     </div>
-    <div class="rounded-lg border border-line bg-white p-5">
-      <h2 class="font-bold">主幹事別</h2>
-      <a class="mt-3 inline-block text-sm text-brand" href={withBase("/broker/sbi/")}>SBI証券のIPO実績</a>
-    </div>
-    <div class="rounded-lg border border-line bg-white p-5">
-      <h2 class="font-bold">市場別</h2>
-      <a class="mt-3 inline-block text-sm text-brand" href={withBase("/market/growth/")}>グロースIPO一覧</a>
-    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <AffiliateBlock ipo={ipos[0] ?? null} />
   </section>
 </BaseLayout>

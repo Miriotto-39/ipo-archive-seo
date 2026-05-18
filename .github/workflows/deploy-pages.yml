@@ -28,6 +28,7 @@ jobs:
         env:
           PUBLIC_SITE_URL: https://miriotto-39.github.io
           PUBLIC_BASE_PATH: /ipo-archive-seo
+          PUBLIC_GSC_VERIFICATION: ${{ vars.PUBLIC_GSC_VERIFICATION }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist

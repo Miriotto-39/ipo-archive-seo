@@ -4,39 +4,56 @@ import brokers from "../../data/brokers.json";
 import type { AffiliateCopy, Broker, IpoRecord } from "@/lib/types";
 
 interface Props {
-  ipo: IpoRecord;
+  ipo?: IpoRecord | null;
 }
 
 const { ipo } = Astro.props;
 const brokerList = brokers as Broker[];
 const copyList = affiliates as AffiliateCopy[];
-const managerSlugs = [ipo.lead_manager_slug, ...(ipo.managers ?? []).map((name) => brokerList.find((broker) => broker.name === name)?.slug)]
-  .filter((slug): slug is string => Boolean(slug));
+
+// 銘柄に主幹事情報があれば、それらを優先表示
+const managerSlugs = ipo
+  ? [ipo.lead_manager_slug, ...(ipo.managers ?? []).map((name) => brokerList.find((broker) => broker.name === name)?.slug)]
+      .filter((slug): slug is string => Boolean(slug))
+  : [];
 const uniqueSlugs = [...new Set(managerSlugs)];
-const items = uniqueSlugs
+
+// 主幹事不明時は IPO に強い主要証券をフォールバック表示
+const fallbackSlugs = ["sbi", "rakuten", "matsui", "monex"];
+const displaySlugs = uniqueSlugs.length > 0 ? uniqueSlugs : fallbackSlugs;
+
+const items = displaySlugs
   .map((slug) => {
     const broker = brokerList.find((candidate) => candidate.slug === slug);
     const copy = copyList.find((candidate) => candidate.broker_slug === slug);
     return broker && copy ? { broker, copy } : undefined;
   })
   .filter((item): item is { broker: Broker; copy: AffiliateCopy } => Boolean(item));
+
+const heading = uniqueSlugs.length > 0 ? "この銘柄を扱った証券会社" : "IPO投資におすすめの証券会社";
+const subheading = uniqueSlugs.length > 0
+  ? "幹事団に名前があった証券会社の口座開設リンクです。"
+  : "IPOの抽選・購入が可能な主要ネット証券。複数口座の併用で当選確率を上げる戦略が一般的です。";
 ---
 
 <section class="rounded-lg border border-accent/40 bg-white p-6">
   <div class="flex flex-wrap items-center justify-between gap-3">
     <div>
-      <p class="text-xs font-semibold uppercase tracking-wide text-accent">PR placeholder</p>
-      <h2 class="mt-1 text-xl font-bold">この銘柄が買えた証券会社</h2>
+      <p class="text-xs font-semibold uppercase tracking-wide text-accent">PR / アフィリエイト</p>
+      <h2 class="mt-1 text-xl font-bold">{heading}</h2>
+      <p class="mt-1 text-sm text-muted">{subheading}</p>
     </div>
-    <p class="text-sm text-muted">フェーズ1ではリンク先は仮置きです。</p>
   </div>
   <div class="mt-5 grid gap-3 md:grid-cols-2">
     {items.map(({ broker, copy }) => (
-      <a class="rounded-lg border border-line p-4 hover:border-brand" href={broker.affiliate_url}>
+      <a class="rounded-lg border border-line p-4 transition hover:border-brand hover:shadow-soft" href={broker.affiliate_url} target="_blank" rel="sponsored noopener">
         <p class="font-semibold">{broker.name}</p>
         <p class="mt-2 text-sm text-muted">{copy.catch}</p>
-        <p class="mt-3 text-sm font-semibold text-brand">{copy.cta}</p>
+        <p class="mt-3 text-sm font-semibold text-brand">{copy.cta} →</p>
       </a>
     ))}
   </div>
+  <p class="mt-5 border-t border-line pt-4 text-xs leading-6 text-muted">
+    ※ 当ブロックには将来アフィリエイトリンクが入る予定です。投資判断はご自身の責任で行ってください。当サイトは情報提供のみを目的とし、特定の証券会社・銘柄を推奨するものではありません。
+  </p>
 </section>
